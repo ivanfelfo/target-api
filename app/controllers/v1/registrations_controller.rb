@@ -1,12 +1,20 @@
-class V1::RegistrationsController < ApplicationController
-    
-    
+# frozen_string_literal: true
+
+module V1
+  class RegistrationsController < ApplicationController
     def create
-        user = User.new(email: params[:email], gender: params[:gender] ,password: params[:password])
-        if user.save!
-            render json: user.to_json(), status: :created
-        else
-            head(:unauthorized)
-        end
+      user = User.new(user_params)
+      if user.save!
+        render json: user.to_json, status: :created
+      else
+        head(:unauthorized)
+      end
     end
+
+    private
+
+    def user_params
+      params.require(:user).permit(:email, :password, :gender)
+    end
+  end
 end
