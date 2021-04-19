@@ -1,11 +1,23 @@
-class V1::SessionsController < ApplicationController
-    def create
-        user = User.where(email: params[:email]).first
+# frozen_string_literal: true
 
-        if user && user.valid_password?(params[:password])
-            render json: user.to_json(), status: :created
-        else
-            head(:unauthorized)
-        end
+module V1
+  class SessionsController < ApplicationController
+    def create
+      user = User.find_by(email: params[:email])
+
+      if user&.valid_password?(params[:password])
+        session[:user_id] = user.id
+        session[:email] = user.email
+        render json: user.to_json, status: :created
+      else
+        head(:unauthorized)
+      end
     end
+
+    def destroy
+      session[:user_id] = nil
+      session[:email] = nil
+      render json: 'signed out!'.to_json
+    end
+  end
 end
