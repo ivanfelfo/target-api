@@ -2,6 +2,7 @@
 
 module V1
   class RegistrationsController < ApplicationController
+    rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
     def create
       user = User.new(user_params)
       if user.save!
@@ -12,6 +13,10 @@ module V1
     end
 
     private
+
+    def render_record_invalid(exception)
+      render json: { errors: exception.record.errors.as_json }, status: :bad_request
+    end
 
     def user_params
       params.require(:user).permit(:email, :password, :gender)
