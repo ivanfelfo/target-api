@@ -2,7 +2,6 @@
 
 module V1
   class RegistrationsController < ApplicationController
-    rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
     def create
       user = User.new(user_params)
       if user.save!
