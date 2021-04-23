@@ -12,9 +12,9 @@ gem 'pg', '~> 1.1'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 
-gem 'devise'
-gem 'devise_token_auth'
-gem 'rubocop-rails', require: false
+gem 'devise', '~> 4.7.3'
+gem 'devise_token_auth', '~> 1.1.5'
+gem 'rubocop-rails', '~> 2.9.1', require: false
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.7'
@@ -42,8 +42,8 @@ end
 group :development do
   gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'brakeman'
-  gem 'spring'
+  gem 'brakeman', '~> 5.0.0'
+  gem 'spring', '~> 2.1.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
