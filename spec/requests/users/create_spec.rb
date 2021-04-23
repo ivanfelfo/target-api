@@ -13,6 +13,7 @@ RSpec.describe 'POST /v1/users', type: :request do
 
   context 'when trying to register a user with an email that already exists' do
     let!(:created_user) { User.create(email: 'mail@mail.com', password: 'hello123', gender: true) }
+
     it 'does not create a new user' do
       post v1_user_registration_path, params: params, as: :json
       expect(User.count).to eq(1)
