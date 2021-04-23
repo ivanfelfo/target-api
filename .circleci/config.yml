@@ -38,4 +38,4 @@ jobs:
       # run code_analysis!
       - run:
           name: run code analysis
-          command: RAILS_ENV=test bundle exec rubocop app config lib spec
+          command: RAILS_ENV=test bundle exec rubocop
