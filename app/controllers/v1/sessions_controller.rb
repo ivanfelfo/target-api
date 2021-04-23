@@ -3,7 +3,7 @@
 module V1
   class SessionsController < ApplicationController
     def create
-      if user&.valid_password?(params[:password])
+      if user&.valid_password?(params[:user][:password])
         assign_session_params
         render json: user, status: :created
       else
@@ -20,7 +20,7 @@ module V1
     private
 
     def user
-      User.find_by(email: params[:email])
+      User.find_by(email: params[:user][:email])
     end
 
     def assign_session_params
