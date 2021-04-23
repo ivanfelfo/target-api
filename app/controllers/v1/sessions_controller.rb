@@ -3,12 +3,9 @@
 module V1
   class SessionsController < ApplicationController
     def create
-      user = User.find_by(email: params[:email])
-
       if user&.valid_password?(params[:password])
-        session[:user_id] = user.id
-        session[:email] = user.email
-        render json: user.to_json, status: :created
+        assign_session_params
+        render json: user, status: :created
       else
         head(:unauthorized)
       end
@@ -18,6 +15,17 @@ module V1
       session[:user_id] = nil
       session[:email] = nil
       render json: 'signed out!'.to_json
+    end
+
+    private
+
+    def user
+      User.find_by(email: params[:email])
+    end
+
+    def assign_session_params
+      session[:user_id] = user.id
+      session[:email] = user.email
     end
   end
 end
