@@ -7,7 +7,7 @@ RSpec.describe 'POST /v1/users', type: :request do
   let(:params) { { user: { email: 'mail@mail.com', password: 'hello123', gender: :male } } }
 
   context 'when valid' do
-    it 'creates and saves user in db' do
+    it 'creates a user in db' do
       subject
       user = User.last
       expect(user.email).to eq('mail@mail.com')
@@ -32,6 +32,16 @@ RSpec.describe 'POST /v1/users', type: :request do
         expect(female_user.gender).to eq('female')
       end
     end
+
+    context 'when creating a user passing a blank gender' do
+      let(:params) { { user: { email: 'mail@mail.com', password: 'hello123' } } }
+
+      it 'will create a user with an unknown gender' do
+        subject
+        unknown_gender_user = User.last
+        expect(unknown_gender_user.gender).to eq('unknown')
+      end
+    end
   end
 
   context 'when not valid' do
@@ -52,6 +62,14 @@ RSpec.describe 'POST /v1/users', type: :request do
 
       it 'will NOT change the user count' do
         expect { subject }.not_to change(User, :count)
+      end
+    end
+
+    context 'when creating a user passing random value gender' do
+      let(:params) { { user: { email: 'mail@mail.com', password: 'hello123', gender: 'x' } } }
+
+      it 'will NOT create a user' do
+        expect { subject }.to raise_error(ArgumentError, /'x' is not a valid gender/)
       end
     end
   end
