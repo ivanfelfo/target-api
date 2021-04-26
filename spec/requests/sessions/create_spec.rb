@@ -30,11 +30,11 @@ RSpec.describe 'POST /v1/users/sign_in', type: :request do
     end
 
     context 'when leaving a blank parameter' do
-      let(:params) { { user: { email: 'mail@mail.com'} } }
+      let(:params) { { user: { email: 'mail@mail.com' } } }
 
-    #   it  'responds with code 401' do
-    #     expect(response).to have_http_status(401)
-    #   end /// it is returning nil
+      #   it  'responds with code 401' do
+      #     expect(response).to have_http_status(401)
+      #   end /// it is returning nil
     end
   end
 
