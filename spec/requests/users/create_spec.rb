@@ -50,11 +50,6 @@ RSpec.describe 'POST /v1/users', type: :request do
         User.create(email: 'mail@mail.com', password: 'hello123', gender: :male)
       end
 
-      it 'does not create a new user' do
-        subject
-        expect(User.count).to eq(1)
-      end
-
       it 'responds with 400' do
         subject
         expect(response).to have_http_status(400)
