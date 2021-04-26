@@ -7,7 +7,7 @@ RSpec.describe 'POST /v1/users', type: :request do
   let(:params) { { user: { email: 'mail@mail.com', password: 'hello123', gender: true } } }
 
   context 'when valid' do
-    it 'saves user in db' do
+    it 'creates and saves user in db' do
       subject
       user = User.last
       expect(user.email).to eq('mail@mail.com')
@@ -17,6 +17,10 @@ RSpec.describe 'POST /v1/users', type: :request do
     it 'responds with 200' do
       subject
       expect(response).to have_http_status(201)
+    end
+
+    it 'will change the user count by 1' do
+      expect { subject }.to change(User, :count).by(1)
     end
   end
 
@@ -34,6 +38,10 @@ RSpec.describe 'POST /v1/users', type: :request do
       it 'responds with 400' do
         subject
         expect(response).to have_http_status(400)
+      end
+
+      it 'will NOT change the user count' do
+        expect { subject }.not_to change(User, :count)
       end
     end
   end
