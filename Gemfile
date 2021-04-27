@@ -17,7 +17,7 @@ gem 'devise_token_auth', '~> 1.1.5'
 gem 'rubocop-rails', '~> 2.9.1', require: false
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 2.7'
+gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
@@ -36,6 +36,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'mailcatcher', '~> 0.2.4'
+  gem 'rails-controller-testing', '~> 1.0.5'
   gem 'rspec-rails', '~> 5.0.0'
   gem 'rubocop-rootstrap', '~> 1.2'
   gem 'shoulda-matchers', '~>  4.5.1'
