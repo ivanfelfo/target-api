@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-app_test = File.join(Rails.root, 'config', 'credentials.rb')
-load(app_test) if File.exist?(app_test)
-
 # Assuming you have not yet modified this file, each configuration option below
 # is set to its default value. Note that some are commented out while others
 # are not: uncommented lines are intended to protect your configuration from
@@ -29,7 +26,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = ENV['MAILER_SENDER']
+  config.mailer_sender = Rails.application.credentials.config[:mailer_sender]
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
