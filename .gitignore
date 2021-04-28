@@ -19,6 +19,8 @@ config/secrets.yml
 .env
 config/.DS_Store
 
+config/credentials.rb
+
 ## Environment normalisation:
 /.bundle
 /vendor/bundle
