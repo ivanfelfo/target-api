@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe V1::DashboardsController do
   describe 'GET index' do
     subject { get :index }
