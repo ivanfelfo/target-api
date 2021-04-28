@@ -23,6 +23,10 @@ RSpec.describe 'POST /v1/users', type: :request do
       expect { subject }.to change(User, :count).by(1)
     end
 
+    it 'sends confirmation email' do
+      expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(1)
+    end
+
     context 'when creating a female user' do
       let(:params) { { user: { email: 'mail@mail.com', password: 'hello123', gender: :female } } }
 
