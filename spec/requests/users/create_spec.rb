@@ -23,7 +23,7 @@ RSpec.describe 'POST /v1/users', type: :request do
       expect { subject }.to change(User, :count).by(1)
     end
 
-    it 'sends email confirmation' do
+    it 'sends confirmation email' do
       expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(1)
     end
 
