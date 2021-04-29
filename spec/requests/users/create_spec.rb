@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'POST /v1/users', type: :request do
   subject { post v1_user_registration_path, params: params, as: :json }
-  let(:params) { { user: { email: 'mail@mail.com', password: 'hello123', gender: :male } } }
+  let(:params)  { { user: { email: 'mail@mail.com', password: 'hello123', gender: :male } } }
 
   context 'when valid' do
     it 'creates a user in db' do
@@ -50,9 +50,7 @@ RSpec.describe 'POST /v1/users', type: :request do
 
   context 'when not valid' do
     context 'when trying to register a user with an email that already exists' do
-      let!(:created_user) do
-        User.create(email: 'mail@mail.com', password: 'hello123', gender: :male)
-      end
+      let!(:created_user) { create(:user, email: 'mail@mail.com') }
 
       it 'responds with 400' do
         subject

@@ -9,7 +9,7 @@ RSpec.describe 'POST /v1/users/sign_in', type: :request do
   let(:params) { { user: { email: 'mail@mail.com', password: 'hello123' } } }
 
   context 'when user already exists' do
-    let!(:created_user) { User.create!(email: 'mail@mail.com', password: 'hello123') }
+    let!(:created_user) { create(:user, email: 'mail@mail.com', password: 'hello123') }
 
     context 'when password matches' do
       it 'responds with code 200' do
