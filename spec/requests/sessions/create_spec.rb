@@ -9,15 +9,23 @@ RSpec.describe 'POST /v1/users/sign_in', type: :request do
   let(:params) { { user: { email: 'mail@mail.com', password: 'hello123' } } }
 
   context 'when user already exists' do
-    let!(:created_user) { create(:user, email: 'mail@mail.com', password: 'hello123') }
+    let!(:created_user) do
+      create(:user, email: 'mail@mail.com', password: 'hello123',
+                    password_confirmation: 'hello123', confirmed_at: Time.current)
+    end
 
     context 'when password matches' do
       it 'responds with code 200' do
-        expect(subject).to have_http_status(201)
+        expect(subject).to have_http_status(200)
+      end
+
+      it 'creates a new token for the user' do
+        subject
+        expect(User.last.tokens).not_to be_empty
       end
 
       it 'returns user email' do
-        expect(JSON.parse(subject.body)['email']).to eq(created_user.email)
+        expect(JSON.parse(subject.body)['data']['email']).to eq(created_user.email)
       end
     end
 
