@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module V1
-  class SessionsController < ApplicationController
+  class SessionsController < DeviseTokenAuth::SessionsController
     def create
       if user&.valid_password?(params[:user][:password])
         assign_session_params
