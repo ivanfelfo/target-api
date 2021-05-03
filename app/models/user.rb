@@ -6,6 +6,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :confirmable
   include DeviseTokenAuth::Concerns::User
 
+  has_many :targets, dependent: :destroy
+
   validates :email, presence: true, uniqueness: true
   validates :encrypted_password, presence: true
   validates :gender, presence: true
