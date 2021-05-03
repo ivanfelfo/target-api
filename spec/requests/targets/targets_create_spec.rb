@@ -8,19 +8,8 @@ describe 'POST v1/targets', type: :request do
 
   context 'when user is logged in' do
     sign_in(:user)
-
-    it 'creates a target in the db' do
-      subject
-      target = Target.last
-      expect(target.title).to eq('Burgers')
-      expect(target.latitude).to eq(1)
-      expect(target.longitude).to eq(1)
-      expect(target.radius).to eq(2)
-      expect(target.topic_id).to eq(topic.id)
-    end
-
-    it 'will change the target count by 1' do
-      expect { subject }.to change(Target, :count).by(1)
+    let(:params) do
+      { target: { title: 'hola', lat: 1, lon: 1, radius: 2, topic_id: topic[:id] } }
     end
 
     it 'returns http success' do
