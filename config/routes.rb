@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   namespace :v1 do
-    devise_for :users, controllers: {
-      confirmations: 'v1/confirmations'
+    mount_devise_token_auth_for 'User', at: 'users', controllers: {
+      confirmations: 'v1/confirmations',
+      registrations: 'v1/registrations',
+      sessions: 'v1/sessions'
     }
     resources :dashboards, only: [:index], as: :dashboards
   end

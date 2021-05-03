@@ -1,24 +1,15 @@
 # frozen_string_literal: true
 
 module V1
-  class RegistrationsController < ApplicationController
-    def create
-      user = User.new(user_params)
-      if user.save!
-        render json: user.to_json, status: :created
-      else
-        head(:unauthorized)
-      end
-    end
-
+  class RegistrationsController < DeviseTokenAuth::RegistrationsController
     private
 
-    def render_record_invalid(exception)
-      render json: { errors: exception.record.errors.as_json }, status: :bad_request
+    def sign_up_params
+      params.require(:user).permit(:email, :password, :password_confirmation, :gender)
     end
 
-    def user_params
-      params.require(:user).permit(:email, :password, :gender)
+    def render_create_success
+      render json: { user: resource_data }
     end
   end
 end

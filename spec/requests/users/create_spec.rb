@@ -16,7 +16,7 @@ RSpec.describe 'POST /v1/users', type: :request do
 
     it 'responds with 200' do
       subject
-      expect(response).to have_http_status(201)
+      expect(response).to have_http_status(200)
     end
 
     it 'will change the user count by 1' do
@@ -50,11 +50,13 @@ RSpec.describe 'POST /v1/users', type: :request do
 
   context 'when not valid' do
     context 'when trying to register a user with an email that already exists' do
-      let!(:created_user) { create(:user, email: 'mail@mail.com') }
+      let!(:created_user) do
+        create(:user, email: 'mail@mail.com', password: 'hello1234')
+      end
 
       it 'responds with 400' do
         subject
-        expect(response).to have_http_status(400)
+        expect(response).to have_http_status(422)
       end
 
       it 'will NOT change the user count' do
