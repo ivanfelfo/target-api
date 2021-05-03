@@ -23,9 +23,9 @@ RSpec.describe 'POST /v1/users', type: :request do
       expect { subject }.to change(User, :count).by(1)
     end
 
-    # it 'sends confirmation email' do
-    #   expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(1)
-    # end
+    it 'sends confirmation email' do
+      expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(1)
+    end
 
     context 'when creating a female user' do
       let(:params) { { user: { email: 'mail@mail.com', password: 'hello123', gender: :female } } }
@@ -51,8 +51,7 @@ RSpec.describe 'POST /v1/users', type: :request do
   context 'when not valid' do
     context 'when trying to register a user with an email that already exists' do
       let!(:created_user) do
-        create(:user, email: 'mail@mail.com', password: 'hello1234',
-                      password_confirmation: 'hello1234')
+        create(:user, email: 'mail@mail.com', password: 'hello1234')
       end
 
       it 'responds with 400' do

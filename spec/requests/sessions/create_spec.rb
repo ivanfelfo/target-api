@@ -10,8 +10,7 @@ RSpec.describe 'POST /v1/users/sign_in', type: :request do
 
   context 'when user already exists' do
     let!(:created_user) do
-      create(:user, email: 'mail@mail.com', password: 'hello123',
-                    password_confirmation: 'hello123', confirmed_at: Time.current)
+      create(:user, email: 'mail@mail.com', password: 'hello123', confirmed_at: Time.current)
     end
 
     context 'when password matches' do
