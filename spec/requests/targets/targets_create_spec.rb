@@ -13,6 +13,10 @@ describe 'POST v1/targets', type: :request do
       subject
       target = Target.last
       expect(target.title).to eq('Burgers')
+      expect(target.latitude).to eq(1)
+      expect(target.longitude).to eq(1)
+      expect(target.radius).to eq(2)
+      expect(target.topic_id).to eq(topic.id)
     end
 
     it 'will change the target count by 1' do
@@ -29,6 +33,10 @@ describe 'POST v1/targets', type: :request do
     it 'returns http code 404' do
       subject
       expect(response).to have_http_status(401)
+    end
+
+    it 'will NOT change the target count' do
+      expect { subject }.not_to change(Target, :count)
     end
   end
 end

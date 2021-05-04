@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-RSpec.describe Target, type: :model do
+describe Target, type: :model do
   context 'when is a valid instance' do
     subject { build(:target) }
 
@@ -9,4 +7,7 @@ RSpec.describe Target, type: :model do
       is_expected.to be_valid
     end
   end
+
+  it { is_expected.to belong_to :user }
+  it { is_expected.to belong_to :topic }
 end

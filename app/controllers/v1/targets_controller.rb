@@ -17,7 +17,7 @@ module V1
     end
 
     def target_params
-      params.require(:target).permit(:topic_id, :user_id, :title, :radius, :lat, :lon)
+      params.require(:target).permit(:topic_id, :user_id, :title, :radius, :latitude, :longitude)
     end
   end
 end
