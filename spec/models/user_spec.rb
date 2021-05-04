@@ -1,4 +1,10 @@
 describe User, type: :model do
+  context 'validations' do
+    it { is_expected.to validate_presence_of(:gender) }
+    it { is_expected.to validate_presence_of(:email) }
+    it { is_expected.to validate_presence_of(:encrypted_password) }
+  end
+
   it 'works with enum' do
     is_expected.to define_enum_for(:gender)
       .with_values(male: 0, female: 1, other: 2, unknown: 3)

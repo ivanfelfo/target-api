@@ -1,4 +1,10 @@
 describe Target, type: :model do
+  context 'validations' do
+    it { is_expected.to validate_presence_of(:title) }
+    it { is_expected.to validate_presence_of(:latitude) }
+    it { is_expected.to validate_presence_of(:longitude) }
+    it { is_expected.to validate_presence_of(:radius) }
+  end
   context 'when is a valid instance' do
     subject { build(:target) }
 

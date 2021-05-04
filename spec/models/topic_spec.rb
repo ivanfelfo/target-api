@@ -1,4 +1,8 @@
 describe Topic, type: :model do
+  context 'validations' do
+    it { is_expected.to validate_presence_of(:name) }
+  end
+
   context 'when is a valid instance' do
     subject { build(:topic) }
 
