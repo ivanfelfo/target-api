@@ -1,7 +1,7 @@
 describe 'DELETE /v1/targets/{id}', type: :request do
   context 'when the user is logged in' do
     let(:user) { create(:user) }
-    let(:target_of_the_user) { create(:target, user_id: user.id) }
+    let!(:target_of_the_user) { create(:target, user_id: user.id) }
     let(:other_target) { create(:target) }
     sign_in(:user)
 
@@ -20,7 +20,7 @@ describe 'DELETE /v1/targets/{id}', type: :request do
 
   context 'when the user is not logged in' do
     let(:target) { create(:target) }
-    
+
     it 'responds with unauthorized' do
       delete v1_target_path(target.id)
       expect(response).to have_http_status(:unauthorized)
