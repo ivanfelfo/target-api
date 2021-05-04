@@ -52,7 +52,7 @@ describe 'POST v1/targets', type: :request do
   end
 
   context 'when user is not logged in' do
-    it 'returns http code 404' do
+    it 'returns http code 401' do
       subject
       expect(response).to have_http_status(401)
     end
