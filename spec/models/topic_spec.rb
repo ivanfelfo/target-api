@@ -12,10 +12,16 @@ describe Topic, type: :model do
     end
   end
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Several tests added
 
   it 'has many targets dependent destroy' do
     is_expected.to have_many(:targets).dependent(:destroy)
   end
+<<<<<<< HEAD
 =======
 >>>>>>> Improvements based on PR comments
+=======
+>>>>>>> Several tests added
 end

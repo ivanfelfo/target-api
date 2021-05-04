@@ -21,4 +21,7 @@ describe Target, type: :model do
       is_expected.to be_valid
     end
   end
+
+  it { is_expected.to belong_to :user }
+  it { is_expected.to belong_to :topic }
 end
