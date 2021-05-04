@@ -8,8 +8,8 @@ describe 'DELETE /v1/targets/{id}', type: :request do
     it 'deletes a created target that is owned' do
       delete v1_target_path(target_of_the_user.id)
       expect(response).to have_http_status(:success)
-      # target_deleted = Target.where(id: target_of_the_user.id).first
-      expect(target_of_the_user.persisted?).to be(true)
+      target_deleted = Target.find_by(id: target_of_the_user.id)
+      expect(target_deleted).to be_nil
     end
 
     it 'is not allowed to delete someone else\'s target' do
