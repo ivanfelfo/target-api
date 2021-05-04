@@ -8,8 +8,15 @@ describe 'POST v1/targets', type: :request do
 
   context 'when user is logged in' do
     sign_in(:user)
-    let(:params) do
-      { target: { title: 'Burgers', latitude: 1, longitude: 1, radius: 2, topic_id: topic[:id] } }
+
+    it 'creates a target in the db' do
+      subject
+      target = Target.last
+      expect(target.title).to eq('Burgers')
+    end
+
+    it 'will change the target count by 1' do
+      expect { subject }.to change(Target, :count).by(1)
     end
 
     it 'returns http success' do
@@ -37,6 +44,13 @@ describe 'POST v1/targets', type: :request do
 
     it 'doesn\t change the target count' do
       expect { subject }.not_to change(Target, :count)
+    end
+  end
+
+  context 'when user is not logged in' do
+    it 'returns http code 404' do
+      subject
+      expect(response).to have_http_status(401)
     end
   end
 end

@@ -11,8 +11,11 @@ describe Topic, type: :model do
       is_expected.to be_valid
     end
   end
+<<<<<<< HEAD
 
   it 'has many targets dependent destroy' do
     is_expected.to have_many(:targets).dependent(:destroy)
   end
+=======
+>>>>>>> Improvements based on PR comments
 end
