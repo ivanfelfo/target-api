@@ -20,9 +20,15 @@ describe 'DELETE /v1/targets/{id}', type: :request do
 
   context 'when the user is not logged in' do
     let(:target) { create(:target) }
+    
     it 'responds with unauthorized' do
       delete v1_target_path(target.id)
       expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'will NOT change the target count' do
+      delete v1_target_path(target.id)
+      expect { subject }.not_to change(Target, :count)
     end
   end
 end
