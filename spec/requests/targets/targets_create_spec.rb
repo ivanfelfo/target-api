@@ -9,7 +9,7 @@ describe 'POST v1/targets', type: :request do
   context 'when user is logged in' do
     sign_in(:user)
     let(:params) do
-      { target: { title: 'hola', lat: 1, lon: 1, radius: 2, topic_id: topic[:id] } }
+      { target: { title: 'Burgers', latitude: 1, longitude: 1, radius: 2, topic_id: topic[:id] } }
     end
 
     it 'returns http success' do
