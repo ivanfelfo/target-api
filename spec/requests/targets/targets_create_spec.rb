@@ -38,7 +38,7 @@ describe 'POST v1/targets', type: :request do
         expect(response.status).to eq(400)
       end
 
-      it 'will return error' do
+      it 'returns an error' do
         subject
         expect(json['errors']['latitude'][0]).to eq('is not a number')
       end
@@ -47,10 +47,13 @@ describe 'POST v1/targets', type: :request do
     context 'when current user tries to exceed the target limit' do
       before { create_list(:target, 10, user: user) }
 
-      it 'doesn\'t save any new target for the user' do
+      it 'doesn\'t change the target count' do
+        expect { subject }.not_to change { user.reload.targets.count }
+      end
+
+      it 'renders errors in the response' do
         subject
-        expect(user.targets.count).to eq(10)
-        expect(json['error']).to eq('error! target limit reached')
+        expect(json['error']).to eq('Target limit reached')
       end
     end
   end
@@ -61,7 +64,7 @@ describe 'POST v1/targets', type: :request do
       expect(response).to have_http_status(401)
     end
 
-    it 'doesn\t change the target count' do
+    it 'doesn\'t change the target count' do
       expect { subject }.not_to change(Target, :count)
     end
   end

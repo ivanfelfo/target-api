@@ -17,7 +17,7 @@ module V1
     def check_limit
       return unless current_v1_user.targets.count >= Target::MAX_TARGETS_PER_USER
 
-      render json: { error: 'error! target limit reached' }, status: :bad_request
+      render json: { error: 'Target limit reached' }, status: :bad_request
     end
 
     def target
