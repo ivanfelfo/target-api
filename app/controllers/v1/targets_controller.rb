@@ -26,7 +26,7 @@ module V1
     end
 
     def render_record_invalid
-      render json: 'error! record invalid', status: :unauthorized
+      render json: 'error! record invalid', status: :forbidden
     end
   end
 end

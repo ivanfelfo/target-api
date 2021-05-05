@@ -27,6 +27,17 @@ describe 'POST v1/targets', type: :request do
       subject
       expect(response).to have_http_status(200)
     end
+
+    context 'when passing an invalid parameter' do
+      let(:params) do
+        { target: { title: 'Burgers', latitude: 'x', longitude: 1, radius: 2, topic_id: topic.id } }
+      end
+
+      it 'will return http forbidden' do
+        subject
+        expect(response.status).to eq(403)
+      end
+    end
   end
 
   context 'when user is not logged in' do
