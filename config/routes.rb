@@ -6,5 +6,6 @@ Rails.application.routes.draw do
       sessions: 'v1/sessions'
     }
     resources :dashboards, only: [:index], as: :dashboards
+    resources :targets, as: :targets
   end
 end
