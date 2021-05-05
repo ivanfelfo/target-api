@@ -42,6 +42,10 @@ describe 'POST v1/targets', type: :request do
         subject
         expect(json['errors']['latitude'][0]).to eq('is not a number')
       end
+
+      it 'doesn\'t change the target count' do
+        expect { subject }.not_to change { user.reload.targets.count }
+      end
     end
 
     context 'when current user tries to exceed the target limit' do
