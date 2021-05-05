@@ -25,7 +25,7 @@ describe 'POST v1/targets', type: :request do
 
     it 'returns http success' do
       subject
-      expect(response).to have_http_status(204)
+      expect(response).to have_http_status(200)
     end
   end
 
