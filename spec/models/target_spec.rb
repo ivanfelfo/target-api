@@ -21,4 +21,24 @@ describe Target, type: :model do
       is_expected.to be_valid
     end
   end
+
+  context 'try to exceed targets per user limit' do
+    let(:user) { create(:user) }
+    before { create_list(:target, 10, user: user) }
+
+    it 'won\'t create a new target for that user' do
+      target = build(:target, user: user)
+      expect(target.save).to eq(false)
+    end
+
+    it 'returns error' do
+      target = build(:target, user: user)
+      expect { target.save! }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'won\'t update target to be of that user' do
+      target = create(:target)
+      expect(target.update(user: user)).to eq(false)
+    end
+  end
 end
