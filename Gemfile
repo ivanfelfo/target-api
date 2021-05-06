@@ -38,6 +38,7 @@ group :development, :test do
   gem 'factory_bot_rails', '~>  6.1.0'
   gem 'faker', '~> 2.17.0'
   gem 'mailcatcher', '~> 0.2.4'
+  gem 'pagy', '~> 4.5.1'
   gem 'rails-controller-testing', '~> 1.0.5'
   gem 'rspec-rails', '~> 5.0.0'
   gem 'rubocop-rootstrap', '~> 1.2'
