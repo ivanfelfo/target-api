@@ -1,19 +1,19 @@
-describe 'GET v1/topics', type: :request do
+describe 'GET v1/targets', type: :request do
   let(:user) { create(:user) }
   before do
-    create_list(:topic, 10)
+    create_list(:target, 10, user: user)
     stub_const('ApplicationController::PAGY_LIMIT', 5)
   end
-  subject { get v1_topics_path, as: :json }
+  subject { get v1_targets_path, as: :json }
 
   context 'when user is logged in' do
     sign_in(:user)
 
-    it 'returns 5 topics because of pagy limit' do
+    it 'returns 5 targets because of pagy limit' do
       subject
       expect(json['pagy']['total_count'].to_i).to eq(10)
       expect(json['pagy']['total_pages'].to_i).to eq(2)
-      expect(json['topics'].count).to eq(5)
+      expect(json['targets'].count).to eq(5)
     end
 
     it 'returns http code success' do
