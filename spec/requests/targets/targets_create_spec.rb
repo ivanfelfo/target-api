@@ -57,7 +57,7 @@ describe 'POST v1/targets', type: :request do
 
       it 'renders errors in the response' do
         subject
-        expect(json[:errors][:user]).to eq(['Reached maximum of targets per user'])
+        expect(json['errors']['user']).to eq(['Reached maximum of targets per user'])
       end
     end
   end

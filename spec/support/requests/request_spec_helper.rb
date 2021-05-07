@@ -1,5 +1,5 @@
 module RequestSpecHelper
   def json
-    JSON.parse(response.body).with_indifferent_access
+    JSON.parse(response.body)
   end
 end
