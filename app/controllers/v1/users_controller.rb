@@ -3,13 +3,14 @@ module V1
     before_action :authenticate_v1_user!
 
     def update
-      @user = current_v1_user.update(user_params)
+      current_v1_user.update!(user_params)
+      @user = current_v1_user
     end
 
     private
 
     def user_params
-      require(:user).permit(:gender, :email)
+      params.require(:user).permit(:gender, :email)
     end
   end
 end
