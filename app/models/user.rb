@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  # Include default devise modules.
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
   include DeviseTokenAuth::Concerns::User
 
   has_many :targets, dependent: :destroy
-
-  validates :email, presence: true, uniqueness: true
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
+  validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
   validates :encrypted_password, presence: true
   validates :gender, presence: true
   validates :uid, uniqueness: { scope: :provider }

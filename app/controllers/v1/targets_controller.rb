@@ -4,7 +4,8 @@ module V1
     after_action { pagy_headers_merge(@pagy) if @pagy }
 
     def index
-      @pagy, @topics = pagy(current_v1_user.targets, items: ApplicationController::PAGY_LIMIT)
+      @pagy, @targets = pagy(current_v1_user.targets.order(:id),
+                             items: ApplicationController::PAGY_LIMIT)
     end
 
     def create
