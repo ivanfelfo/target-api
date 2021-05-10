@@ -2,6 +2,11 @@ module V1
   class TargetsController < ApplicationController
     before_action :authenticate_v1_user!
 
+    def index
+      @pagy, @targets = pagy(current_v1_user.targets.order(:id),
+                             items: ApplicationController::PAGY_LIMIT)
+    end
+
     def create
       @target = current_v1_user.targets.create!(target_params)
     end

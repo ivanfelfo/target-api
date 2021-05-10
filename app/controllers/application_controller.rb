@@ -1,8 +1,8 @@
-# frozen_string_literal: true
-
 class ApplicationController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
   include Pagy::Backend
+  PAGY_LIMIT = 20
+
   rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
 
   def render_record_invalid(exception)

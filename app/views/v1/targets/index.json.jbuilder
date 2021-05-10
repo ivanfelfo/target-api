@@ -1,5 +1,5 @@
-json.topics do
-  json.array! @topics
+json.targets do
+  json.array! @targets
 end
 
 json.pagy do
