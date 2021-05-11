@@ -16,7 +16,7 @@ describe 'PUT /v1/users/{id}', type: :request do
 
         it 'changes gender' do
           subject
-          expect(User.find(user.id).gender).to eq('female')
+          expect(user.reload.gender).to eq('female')
         end
       end
 
@@ -30,7 +30,7 @@ describe 'PUT /v1/users/{id}', type: :request do
 
         it 'doesn\'t change user gender' do
           subject
-          expect(user.reload.gender).not_to eq('x')
+          expect { subject }.not_to change(user, :gender)
         end
       end
     end
@@ -48,7 +48,6 @@ describe 'PUT /v1/users/{id}', type: :request do
   context 'when the user is not logged in' do
     it 'responds with unauthorized' do
       subject
-      v1_users_path(0)
       expect(response).to have_http_status(:unauthorized)
     end
   end

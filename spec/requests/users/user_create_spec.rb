@@ -70,6 +70,20 @@ RSpec.describe 'POST /v1/users', type: :request do
       it 'will NOT create a user' do
         expect { subject }.to raise_error(ArgumentError, /'x' is not a valid gender/)
       end
+
+      context 'when creating a user with an invalid email' do
+        let(:params) { { user: { email: 'mail', password: 'hello123', gender: 'male' } } }
+
+        it 'will return error' do
+          subject
+          expect(json['errors']['full_messages']).to eq(['Email is not an email',
+                                                         'Email is invalid'])
+        end
+
+        it 'won\'t change user count' do
+          expect { subject }.not_to change(User, :count)
+        end
+      end
     end
   end
 end
