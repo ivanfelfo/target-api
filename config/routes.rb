@@ -8,5 +8,6 @@ Rails.application.routes.draw do
     resources :dashboards, only: [:index], as: :dashboards
     resources :targets, as: :targets
     resources :topics, as: :topics
+    resources :users, as: :users, only: [:update]
   end
 end
