@@ -1,35 +1,35 @@
 describe 'POST v1/users/password', type: :request do
   let!(:user) { create(:user, password: 'mypass123') }
+  subject { post v1_user_password_path, params: params, as: :json }
 
   context 'with valid params' do
     let(:params) { { email: user.email, redirect_url: '/' } }
 
     it 'returns a successful response' do
-      post v1_user_password_path, params: params, as: :json
+      subject
       expect(response).to have_http_status(:success)
     end
 
     it 'returns the user email' do
-      post v1_user_password_path, params: params, as: :json
+      subject
       expect(json['message']).to match(/#{user.email}/)
     end
 
     it 'sends an email' do
-      expect { post v1_user_password_path, params: params, as: :json }
-        .to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { subject }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
   end
 
   context 'with invalid params' do
+    let(:params) { { email: 'notvalid@example.com', redirect_url: '/' } }
+
     it 'does not return a successful response' do
-      post v1_user_password_path, params: { email: 'notvalid@example.com' }, as: :json
-      expect(response.status).to eq(401)
+      subject
+      expect(response.status).to eq(404)
     end
 
     it 'does not send an email' do
-      expect {
-        post v1_user_password_path, params: { email: 'notvalid@example.com' }, as: :json
-      }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      expect { subject }.not_to change { ActionMailer::Base.deliveries.count }
     end
   end
 end
