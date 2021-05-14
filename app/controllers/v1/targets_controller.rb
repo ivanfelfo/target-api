@@ -1,10 +1,10 @@
 module V1
-  class TargetsController < ApplicationController
+  class TargetsController < ApiController
     before_action :authenticate_v1_user!
 
     def index
       @pagy, @targets = pagy(current_v1_user.targets.order(:id),
-                             items: ApplicationController::PAGY_LIMIT)
+                             items: ApiController::PAGY_LIMIT)
     end
 
     def create

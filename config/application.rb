@@ -12,6 +12,7 @@ require 'action_mailbox/engine'
 require 'action_text/engine'
 require 'action_view/railtie'
 require 'action_cable/engine'
+require "sprockets/railtie"
 # require "sprockets/railtie"
 require 'rails/test_unit/railtie'
 
@@ -36,5 +37,9 @@ module IvanTargetApi
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    config.middleware.use ActionDispatch::Flash
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use Rack::Session::Cookie,
+                          secret: Rails.application.credentials[:secret_key_base]
   end
 end

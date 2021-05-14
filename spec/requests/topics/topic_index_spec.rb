@@ -2,7 +2,7 @@ describe 'GET v1/topics', type: :request do
   let(:user) { create(:user) }
   let!(:created_topics) { create_list(:topic, 10) }
   before do
-    stub_const('ApplicationController::PAGY_LIMIT', 5)
+    stub_const('ApiController::PAGY_LIMIT', 5)
   end
   subject { get v1_topics_path, as: :json }
 
