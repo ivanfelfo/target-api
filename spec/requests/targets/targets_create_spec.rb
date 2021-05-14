@@ -2,7 +2,8 @@ describe 'POST v1/targets', type: :request do
   let(:user) { create(:user) }
   let(:topic) { create(:topic) }
   let(:params) do
-    { target: { title: 'Burgers', latitude: 1, longitude: 1, radius: 2, topic_id: topic.id } }
+    { target: { title: 'Burgers', latitude: 1, longitude: 1, radius: 2, topic_id: topic.id,
+                description: 'I love burgers' } }
   end
   subject { post v1_targets_path, params: params, as: :json }
 
@@ -17,6 +18,7 @@ describe 'POST v1/targets', type: :request do
       expect(target.longitude).to eq(1)
       expect(target.radius).to eq(2)
       expect(target.topic_id).to eq(topic.id)
+      expect(target.description).to eq('I love burgers')
     end
 
     it 'will change the target count by 1' do
