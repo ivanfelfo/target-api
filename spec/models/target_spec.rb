@@ -14,11 +14,24 @@ describe Target, type: :model do
   end
 
   context 'when is a valid instance' do
-    subject { build(:target) }
+    let(:new_target) { build(:target) }
+    subject { new_target.save! }
 
     it 'saves correctly' do
-      subject.save!
-      is_expected.to be_valid
+      expect(subject).to eq(true)
+    end
+
+    context 'when it has compatible targets' do
+      let!(:compatible_target) do
+        create(:target,
+               topic: new_target.topic, longitude: new_target.longitude,
+               latitude: new_target.latitude)
+      end
+
+      it 'sends notification' do
+        expect(OneSignal).to receive(:send_notification)
+        subject
+      end
     end
   end
 
