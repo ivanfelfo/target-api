@@ -3,7 +3,7 @@ describe 'GET v1/targets', type: :request do
   let(:other_user) { create(:user) }
   let!(:created_targets) { create_list(:target, 10, user: user) }
   before do
-    stub_const('ApplicationController::PAGY_LIMIT', 5)
+    stub_const('ApiController::PAGY_LIMIT', 5)
   end
   subject { get v1_targets_path, as: :json }
 

@@ -12,10 +12,11 @@ gem 'pg', '~> 1.1'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 
+gem 'activeadmin', '~> 2.9.0'
 gem 'devise', '~> 4.7.3'
 gem 'devise_token_auth', '~> 1.1.5'
 gem 'rubocop-rails', '~> 2.9.1', require: false
-
+gem 'sassc-rails', '~> 2.1.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
