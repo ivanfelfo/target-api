@@ -13,7 +13,7 @@ describe Target, type: :model do
     it { is_expected.to belong_to :topic }
   end
 
-  context 'when is a valid instance' do
+  context 'when it a valid instance' do
     let(:new_target) { build(:target) }
     subject { new_target.save! }
 
@@ -21,9 +21,14 @@ describe Target, type: :model do
       expect(subject).to eq(true)
     end
 
-    context 'when is doesn\'t have compatible targets' do
-      context 'when is has the same user' do
-        let!(:same_user) { create(:target, user: new_target.user) }
+    # it 'enques job' do
+    #   expect{ subject }.to have_enqueued_job(NotificationsWorker)
+    # end
+
+    context 'when it doesn\'t have compatible targets' do
+      context 'when it has the same user as the one created' do
+        let!(:same_user) { create(:target, user: new_target.user, topic:new_target.topic, 
+          latitude:new_target.latitude, longitude:new_target.longitude, radius:300) }
 
         it 'doesn\'t send notification' do
           expect(OneSignal).not_to receive(:send_notification)
@@ -31,9 +36,9 @@ describe Target, type: :model do
         end
       end
 
-      context 'when is has different topic' do
-        let!(:diff_topic) { create(:target, longitude: 180, latitude: 90, radius: 1) }
-        let(:new_target) { build(:target, longitude: -180, latitude: -90, radius: 1) }
+      context 'when it has different topic as the one created' do
+        let!(:target_diff_topic) { create(:target, 
+          latitude:new_target.latitude, longitude:new_target.longitude, radius:300) }
 
         it 'doesn\'t send notification' do
           expect(OneSignal).not_to receive(:send_notification)
@@ -42,8 +47,10 @@ describe Target, type: :model do
       end
 
       context 'when its radius is not containing another target radius' do
-        let!(:not_contain) { create(:target, latitude: 180, longitude: 90, radius: 1) }
-        let(:new_target) { build(:target, latitude: -180, longitude: -90, radius: 1) }
+        let(:new_target) { build(:target, latitude:90, longitude:180, radius:1) }
+        let!(:not_contain) { create(:target, topic:new_target.topic, 
+          latitude:-90, longitude:180, radius:1) }
+
 
         it 'doesn\'t send notification' do
           expect(OneSignal).not_to receive(:send_notification)

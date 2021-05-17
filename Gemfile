@@ -17,6 +17,7 @@ gem 'devise_token_auth', '~> 1.1.5'
 gem 'geokit-rails', '~> 2.3.2'
 gem 'onesignal-ruby', git: 'https://github.com/mikamai/onesignal-ruby.git'
 gem 'rubocop-rails', '~> 2.9.1', require: false
+gem 'sidekiq', '~> 6.2.1'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'

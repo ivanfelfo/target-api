@@ -23,7 +23,7 @@ class Target < ApplicationRecord
 
   def notify_compatible_targets
     compatible_users.each do |user|
-      OneSignalService.new(user).call
+      NotificationsWorker.perform_async(user)
     end
   end
 
