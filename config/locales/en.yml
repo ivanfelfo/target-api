@@ -32,5 +32,12 @@
 en:
   targets:
     create:
-      limit_reached: 'Reached maximum of targets per user'
+      limit_reached: "Reached maximum of targets per user."
+  onesignal:
+    notification:
+      headings: "Hello!"
+      contents: "I'm a notification"
+      email_subject: "Target match"
+
+
       

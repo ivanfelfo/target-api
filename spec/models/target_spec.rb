@@ -21,6 +21,37 @@ describe Target, type: :model do
       expect(subject).to eq(true)
     end
 
+    context 'when is doesn\'t have compatible targets' do
+      context 'when is has the same user' do
+        let!(:same_user) { create(:target, user: new_target.user) }
+
+        it 'doesn\'t send notification' do
+          expect(OneSignal).not_to receive(:send_notification)
+          subject
+        end
+      end
+
+      context 'when is has different topic' do
+        let!(:diff_topic) { create(:target, longitude: 180, latitude: 90, radius: 1) }
+        let(:new_target) { build(:target, longitude: -180, latitude: -90, radius: 1) }
+
+        it 'doesn\'t send notification' do
+          expect(OneSignal).not_to receive(:send_notification)
+          subject
+        end
+      end
+
+      context 'when its radius is not containing another target radius' do
+        let!(:not_contain) { create(:target, latitude: 180, longitude: 90, radius: 1) }
+        let(:new_target) { build(:target, latitude: -180, longitude: -90, radius: 1) }
+
+        it 'doesn\'t send notification' do
+          expect(OneSignal).not_to receive(:send_notification)
+          subject
+        end
+      end
+    end
+
     context 'when it has compatible targets' do
       let!(:compatible_target) do
         create(:target,
@@ -29,7 +60,9 @@ describe Target, type: :model do
       end
 
       it 'sends notification' do
-        expect(OneSignal).to receive(:send_notification)
+        expect(OneSignal).to receive(:send_notification) do |arg|
+          expect(arg.class.name).to eq('OneSignal::Notification')
+        end
         subject
       end
     end

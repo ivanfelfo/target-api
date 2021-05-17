@@ -22,22 +22,38 @@ class Target < ApplicationRecord
   scope :not_of_user, ->(user_id) { where.not(user_id: user_id) }
 
   def notify_compatible_targets
-    compatible_users = compatible_targets.map(&:user)
-    headings = OneSignal::Notification::Headings.new(en: 'Hello!')
-    contents = OneSignal::Notification::Contents.new(en: 'hola amigo')
-    email_subject = 'yayu'
-    template_id = '92394320-eae9-4bf5-9511-185414238460'
     compatible_users.each do |user|
       included_targets = OneSignal::IncludedTargets.new(include_email_tokens: [user.email])
-      notification = OneSignal::Notification.new(headings: headings, contents: contents,
+      notification = OneSignal::Notification.new(headings: notification_headings,
+                                                 contents: notification_contents,
                                                  included_targets: included_targets,
-                                                 email_subject: email_subject,
-                                                 template_id: template_id)
+                                                 email_subject: notification_email_subject,
+                                                 template_id: notification_template_id)
       OneSignal.send_notification(notification)
     end
   end
 
   private
+
+  def notification_headings
+    OneSignal::Notification::Headings.new(en: I18n.t('onesignal.notification.headings'))
+  end
+
+  def notification_contents
+    OneSignal::Notification::Contents.new(en: I18n.t('onesignal.notification.contents'))
+  end
+
+  def notification_email_subject
+    I18n.t('onesignal.notification.email_subject')
+  end
+
+  def notification_template_id
+    Rails.application.credentials.onesignal[:template_id]
+  end
+
+  def compatible_users
+    compatible_targets.map(&:user)
+  end
 
   def user_target_limit
     return unless user.present? && user.targets.count >= Target::MAX_TARGETS_PER_USER
@@ -47,9 +63,7 @@ class Target < ApplicationRecord
 
   def compatible_targets
     compatible_targets = topic.targets.not_of_user(user_id).to_a
-    compatible_targets.select do |compatible_target|
-      intersects?(compatible_target)
-    end
+    compatible_targets.select { |compatible_target| intersects?(compatible_target) }
   end
 
   def intersects?(compatible_target)
