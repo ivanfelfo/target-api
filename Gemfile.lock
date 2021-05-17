@@ -312,7 +312,7 @@ PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
-  activeadmin
+  activeadmin (~> 2.9.0)
   bootsnap (>= 1.4.4)
   brakeman (~> 5.0.0)
   byebug

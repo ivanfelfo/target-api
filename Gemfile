@@ -12,7 +12,7 @@ gem 'pg', '~> 1.1'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 
-gem 'activeadmin'
+gem 'activeadmin', '~> 2.9.0'
 gem 'devise', '~> 4.7.3'
 gem 'devise_token_auth', '~> 1.1.5'
 gem 'rubocop-rails', '~> 2.9.1', require: false
