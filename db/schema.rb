@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_14_185515) do
+ActiveRecord::Schema.define(version: 2021_05_17_214451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,14 +42,15 @@ ActiveRecord::Schema.define(version: 2021_05_14_185515) do
   end
 
   create_table "targets", force: :cascade do |t|
-    t.integer "topic_id"
-    t.integer "user_id"
-    t.string "title"
+    t.integer "topic_id", null: false
+    t.integer "user_id", null: false
+    t.string "title", null: false
     t.decimal "radius"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.decimal "latitude"
     t.decimal "longitude"
+    t.string "description"
     t.index ["topic_id"], name: "index_targets_on_topic_id"
     t.index ["user_id"], name: "index_targets_on_user_id"
   end

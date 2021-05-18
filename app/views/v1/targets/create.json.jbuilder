@@ -6,4 +6,5 @@ json.target do
   json.radius @target.radius
   json.latitude @target.latitude
   json.longitude @target.longitude
+  json.description @target.description
 end
