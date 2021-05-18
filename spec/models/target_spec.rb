@@ -85,8 +85,8 @@ describe Target, type: :model do
                     latitude: new_target.latitude)
       end
 
-      it 'enques a job' do
-        expect { subject }.to have_enqueued_job.exactly(10)
+      it 'enques 10 NotificationJob jobs' do
+        expect { subject }.to have_enqueued_job(NotificationsJob).exactly(10)
       end
     end
   end
