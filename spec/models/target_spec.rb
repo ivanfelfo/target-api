@@ -22,7 +22,8 @@ describe Target, type: :model do
     end
 
     context 'when it doesn\'t have compatible targets' do
-      context 'when it has the same user as the one created' do
+      context 'when it has the same user as the one created,
+      but contains and has same topic' do
         let!(:same_user) do
           create(:target, user: new_target.user, topic: new_target.topic,
                           latitude: new_target.latitude,
@@ -35,7 +36,8 @@ describe Target, type: :model do
         end
       end
 
-      context 'when it has different topic as the one created' do
+      context 'when it has different topic as the one created,
+      but contains and has different user' do
         let!(:target_diff_topic) do
           create(:target,
                  latitude: new_target.latitude, longitude: new_target.longitude, radius: 300)
@@ -47,9 +49,24 @@ describe Target, type: :model do
         end
       end
 
-      context 'when its radius is not containing another target radius' do
+      context 'when its radius is not containing another target radius,
+      but it has different user and same topic' do
         let(:new_target) { build(:target, latitude: 90, longitude: 180, radius: 1) }
         let!(:not_contain) do
+          create(:target, topic: new_target.topic,
+                          latitude: -90, longitude: 180, radius: 1)
+        end
+
+        it 'doesn\'t send notification' do
+          expect(OneSignal).not_to receive(:send_notification)
+          subject
+        end
+      end
+
+      context 'when it has a different user and topic and
+      doesn\'t contain another target in its radius' do
+        let(:new_target) { build(:target, latitude: 90, longitude: 180, radius: 1) }
+        let!(:created_target) do
           create(:target, topic: new_target.topic,
                           latitude: -90, longitude: 180, radius: 1)
         end
@@ -63,13 +80,13 @@ describe Target, type: :model do
 
     context 'when it has compatible targets' do
       let!(:compatible_target) do
-        create(:target,
-               topic: new_target.topic, longitude: new_target.longitude,
-               latitude: new_target.latitude)
+        create_list(:target, 10,
+                    topic: new_target.topic, longitude: new_target.longitude,
+                    latitude: new_target.latitude)
       end
 
-      it 'enque a job sends notification' do
-        expect { subject }.to have_enqueued_job
+      it 'enques a job' do
+        expect { subject }.to have_enqueued_job.exactly(10)
       end
     end
   end
