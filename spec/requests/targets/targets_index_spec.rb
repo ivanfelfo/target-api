@@ -3,7 +3,7 @@ describe 'GET v1/targets', type: :request do
   let(:other_user) { create(:user) }
   let!(:created_targets) { create_list(:target, 10, user: user) }
   before do
-    stub_const('ApplicationController::PAGY_LIMIT', 5)
+    stub_const('ApiController::PAGY_LIMIT', 5)
   end
   subject { get v1_targets_path, as: :json }
 
@@ -75,6 +75,11 @@ describe 'GET v1/targets', type: :request do
       expect(json['targets'][0]['longitude']).to eq(created_targets[0].longitude.to_s)
     end
 
+    it 'returns the same description as the created target' do
+      subject
+      expect(json['targets'][0]['description']).to eq(created_targets[0].description)
+    end
+
     it 'returns the targets and pagy keys' do
       subject
       expect(json.keys).to contain_exactly('targets', 'pagy')
@@ -89,7 +94,7 @@ describe 'GET v1/targets', type: :request do
       subject
       expect(json['targets'][0].keys).to contain_exactly('id', 'topic_id', 'user_id', 'longitude',
                                                          'latitude', 'title', 'radius',
-                                                         'created_at', 'updated_at')
+                                                         'created_at', 'updated_at', 'description')
     end
   end
 

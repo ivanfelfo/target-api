@@ -1,9 +1,8 @@
 describe 'POST v1/targets', type: :request do
   let(:user) { create(:user) }
   let(:topic) { create(:topic) }
-  let(:params) do
-    { target: { title: 'Burgers', latitude: 1, longitude: 1, radius: 2, topic_id: topic.id } }
-  end
+  let(:target_attrs) { attributes_for(:target, topic_id: topic.id) }
+  let(:params) { { target: target_attrs } }
   subject { post v1_targets_path, params: params, as: :json }
 
   context 'when user is logged in' do
@@ -12,11 +11,12 @@ describe 'POST v1/targets', type: :request do
     it 'creates a target in the db' do
       subject
       target = Target.last
-      expect(target.title).to eq('Burgers')
-      expect(target.latitude).to eq(1)
-      expect(target.longitude).to eq(1)
-      expect(target.radius).to eq(2)
+      expect(target.title).to eq(target_attrs[:title])
+      expect(target.latitude).to eq(target_attrs[:latitude])
+      expect(target.longitude).to eq(target_attrs[:longitude])
+      expect(target.radius).to eq(target_attrs[:radius])
       expect(target.topic_id).to eq(topic.id)
+      expect(target.description).to eq(target_attrs[:description])
     end
 
     it 'will change the target count by 1' do
