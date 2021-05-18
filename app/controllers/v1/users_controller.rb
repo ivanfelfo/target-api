@@ -1,5 +1,5 @@
 module V1
-  class UsersController < ApplicationController
+  class UsersController < ApiController
     before_action :authenticate_v1_user!
 
     def update
