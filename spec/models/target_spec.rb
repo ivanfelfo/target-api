@@ -13,12 +13,81 @@ describe Target, type: :model do
     it { is_expected.to belong_to :topic }
   end
 
-  context 'when is a valid instance' do
-    subject { build(:target) }
+  context 'when it a valid instance' do
+    let(:new_target) { build(:target) }
+    subject { new_target.save! }
 
     it 'saves correctly' do
-      subject.save!
-      is_expected.to be_valid
+      expect(subject).to eq(true)
+    end
+
+    context 'when it doesn\'t have compatible targets' do
+      context 'when it has the same user as the one created,
+      but contains and has same topic' do
+        let!(:same_user) do
+          create(:target, user: new_target.user, topic: new_target.topic,
+                          latitude: new_target.latitude,
+                          longitude: new_target.longitude, radius: 300)
+        end
+
+        it 'doesn\'t send notification' do
+          expect(OneSignal).not_to receive(:send_notification)
+          subject
+        end
+      end
+
+      context 'when it has different topic as the one created,
+      but contains and has different user' do
+        let!(:target_diff_topic) do
+          create(:target,
+                 latitude: new_target.latitude, longitude: new_target.longitude, radius: 300)
+        end
+
+        it 'doesn\'t send notification' do
+          expect(OneSignal).not_to receive(:send_notification)
+          subject
+        end
+      end
+
+      context 'when its radius is not containing another target radius,
+      but it has different user and same topic' do
+        let(:new_target) { build(:target, latitude: 90, longitude: 180, radius: 1) }
+        let!(:not_contain) do
+          create(:target, topic: new_target.topic,
+                          latitude: -90, longitude: 180, radius: 1)
+        end
+
+        it 'doesn\'t send notification' do
+          expect(OneSignal).not_to receive(:send_notification)
+          subject
+        end
+      end
+
+      context 'when it has a different user and topic and
+      doesn\'t contain another target in its radius' do
+        let(:new_target) { build(:target, latitude: 90, longitude: 180, radius: 1) }
+        let!(:created_target) do
+          create(:target, topic: new_target.topic,
+                          latitude: -90, longitude: 180, radius: 1)
+        end
+
+        it 'doesn\'t send notification' do
+          expect(OneSignal).not_to receive(:send_notification)
+          subject
+        end
+      end
+    end
+
+    context 'when it has compatible targets' do
+      let!(:compatible_target) do
+        create_list(:target, 10,
+                    topic: new_target.topic, longitude: new_target.longitude,
+                    latitude: new_target.latitude)
+      end
+
+      it 'enques 10 NotificationJob jobs' do
+        expect { subject }.to have_enqueued_job(NotificationsJob).exactly(10)
+      end
     end
   end
 
