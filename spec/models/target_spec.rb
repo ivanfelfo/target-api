@@ -21,14 +21,13 @@ describe Target, type: :model do
       expect(subject).to eq(true)
     end
 
-    # it 'enques job' do
-    #   expect{ subject }.to have_enqueued_job(NotificationsWorker)
-    # end
-
     context 'when it doesn\'t have compatible targets' do
       context 'when it has the same user as the one created' do
-        let!(:same_user) { create(:target, user: new_target.user, topic:new_target.topic, 
-          latitude:new_target.latitude, longitude:new_target.longitude, radius:300) }
+        let!(:same_user) do
+          create(:target, user: new_target.user, topic: new_target.topic,
+                          latitude: new_target.latitude,
+                          longitude: new_target.longitude, radius: 300)
+        end
 
         it 'doesn\'t send notification' do
           expect(OneSignal).not_to receive(:send_notification)
@@ -37,8 +36,10 @@ describe Target, type: :model do
       end
 
       context 'when it has different topic as the one created' do
-        let!(:target_diff_topic) { create(:target, 
-          latitude:new_target.latitude, longitude:new_target.longitude, radius:300) }
+        let!(:target_diff_topic) do
+          create(:target,
+                 latitude: new_target.latitude, longitude: new_target.longitude, radius: 300)
+        end
 
         it 'doesn\'t send notification' do
           expect(OneSignal).not_to receive(:send_notification)
@@ -47,10 +48,11 @@ describe Target, type: :model do
       end
 
       context 'when its radius is not containing another target radius' do
-        let(:new_target) { build(:target, latitude:90, longitude:180, radius:1) }
-        let!(:not_contain) { create(:target, topic:new_target.topic, 
-          latitude:-90, longitude:180, radius:1) }
-
+        let(:new_target) { build(:target, latitude: 90, longitude: 180, radius: 1) }
+        let!(:not_contain) do
+          create(:target, topic: new_target.topic,
+                          latitude: -90, longitude: 180, radius: 1)
+        end
 
         it 'doesn\'t send notification' do
           expect(OneSignal).not_to receive(:send_notification)
@@ -66,11 +68,8 @@ describe Target, type: :model do
                latitude: new_target.latitude)
       end
 
-      it 'sends notification' do
-        expect(OneSignal).to receive(:send_notification) do |arg|
-          expect(arg.class.name).to eq('OneSignal::Notification')
-        end
-        subject
+      it 'enque a job sends notification' do
+        expect { subject }.to have_enqueued_job
       end
     end
   end

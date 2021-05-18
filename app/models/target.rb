@@ -23,7 +23,7 @@ class Target < ApplicationRecord
 
   def notify_compatible_targets
     compatible_users.each do |user|
-      NotificationsWorker.perform_async(user)
+      NotificationsJob.perform_later(user)
     end
   end
 
