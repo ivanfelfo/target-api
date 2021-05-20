@@ -1,5 +1,8 @@
 class Message < ApplicationRecord
   belongs_to :conversation
+  belongs_to :user
 
-  validates_presence_of :message, on: :create, message: "can't be blank"
+  scope :unread, -> { where(read: false) }
+
+  validates :message, presence: { on: :create, message: "can't be blank" }
 end

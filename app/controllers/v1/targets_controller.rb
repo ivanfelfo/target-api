@@ -3,8 +3,7 @@ module V1
     before_action :authenticate_v1_user!
 
     def index
-      @pagy, @targets = pagy(current_v1_user.targets.order(:id),
-                             items: ApiController::PAGY_LIMIT)
+      @pagy, @targets = pagy(current_v1_user.targets.order(:id), items: ApiController::PAGY_LIMIT)
     end
 
     def create

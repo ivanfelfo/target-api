@@ -1,9 +1,17 @@
 class Conversation < ApplicationRecord
   belongs_to :topic
-  belongs_to :user
-  has_many :messages
+  has_many :messages, dependent: :destroy
 
-  validates_presence_of :user_id1, on: :create, message: "can't be blank"
-  validates_presence_of :user_id2, on: :create, message: "can't be blank"
-  validates_presence_of :topic_id, on: :create, message: "can't be blank"
+  validates :user_id1, presence: { on: :create, message: "can't be blank" }
+  validates :user_id2, presence: { on: :create, message: "can't be blank" }
+
+  validate :not_same_user
+
+  private
+
+  def not_same_user
+    return unless user_id1 == user_id2
+
+    errors.add(:user_id1, I18n.t('conversation.create.restriction'))
+  end
 end

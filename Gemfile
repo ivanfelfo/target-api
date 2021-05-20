@@ -18,8 +18,8 @@ gem 'devise_token_auth', '~> 1.1.5'
 gem 'geokit-rails', '~> 2.3.2'
 gem 'onesignal-ruby', '~> 0.5.0'
 gem 'rubocop-rails', '~> 2.9.1', require: false
-gem 'sidekiq', '~> 6.2.1'
 gem 'sassc-rails', '~> 2.1.2'
+gem 'sidekiq', '~> 6.2.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
