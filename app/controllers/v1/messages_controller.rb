@@ -24,7 +24,7 @@ module V1
     end
 
     def conversation
-      Conversation.find(params[:id])
+      @conversation ||= Conversation.find(params[:id])
     end
 
     def params_message

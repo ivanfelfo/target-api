@@ -7,28 +7,23 @@ module V1
     end
 
     def index
-      @conversations = Conversation.where(user_id1: current_v1_user.id)
-                                   .or(Conversation.where(user_id2: current_v1_user.id))
+      @conversations = conversation_index_array
       return unless @conversations.empty?
 
       render json: { error: I18n.t('conversation.index.empty') }, status: :bad_request
     end
 
     def show
-      @conversation = conversation_array_show
+      @conversation = conversation_show_array
       @conversation.update!(read: true)
       return unless @conversation.empty?
 
       render json: { error: I18n.t('conversation.show.empty') }, status: :bad_request
-      elseif @conversation.messages.present?
-      @conversation.messages.unread.each { |m| m.read = true }
+      @conversation.messages.unread.each { |m| m.read = true } if @conversation.messages.present?
     end
 
     def unread
-      @conversations = Conversation.where({ user_id1: current_v1_user.id,
-                                            read: false })
-                                   .or(Conversation
-                                              .where({ user_id2: current_v1_user.id, read: false }))
+      @conversations = conversation_unread_array
       return unless @conversations.empty?
 
       render json: { error: I18n.t('conversation.get_unread.empty') }, status: :bad_request
@@ -36,7 +31,17 @@ module V1
 
     private
 
-    def conversation_array_show
+    def conversation_unread_array
+      Conversation.where({ user_id1: current_v1_user.id, read: false })
+                  .or(Conversation.where({ user_id2: current_v1_user.id, read: false }))
+    end
+
+    def conversation_index_array
+      Conversation.where(user_id1: current_v1_user.id)
+                  .or(Conversation.where(user_id2: current_v1_user.id))
+    end
+
+    def conversation_show_array
       Conversation.where({ id: params[:id],
                            user_id1: current_v1_user.id })
                   .or(Conversation.where({ id: params[:id],

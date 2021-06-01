@@ -4,5 +4,5 @@ class Message < ApplicationRecord
 
   scope :unread, -> { where(read: false) }
 
-  validates :message, presence: { on: :create, message: "can't be blank" }
+  validates :message, presence: { on: :create }
 end

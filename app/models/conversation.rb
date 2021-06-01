@@ -2,8 +2,8 @@ class Conversation < ApplicationRecord
   belongs_to :topic
   has_many :messages, dependent: :destroy
 
-  validates :user_id1, presence: { on: :create, message: "can't be blank" }
-  validates :user_id2, presence: { on: :create, message: "can't be blank" }
+  validates :user_id1, presence: { on: :create }
+  validates :user_id2, presence: { on: :create }
 
   validate :not_same_user
 
