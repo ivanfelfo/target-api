@@ -25,8 +25,7 @@ describe 'GET v1/conversations', type: :request do
       it 'returns every conversation key' do
         subject
         expect(json['conversations'][0].keys)
-          .to contain_exactly('id', 'user_id1', 'user_id2', 'topic_id',
-                              'read', 'created_at', 'updated_at')
+          .to contain_exactly('id', 'user_id1', 'user_id2', 'topic', 'read')
       end
     end
 

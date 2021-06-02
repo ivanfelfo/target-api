@@ -14,12 +14,14 @@ module V1
     end
 
     def show
-      @conversation = conversation_show_array
-      @conversation.update!(read: true)
-      return unless @conversation.empty?
-
-      render json: { error: I18n.t('conversation.show.empty') }, status: :bad_request
-      @conversation.messages.unread.each { |m| m.read = true } if @conversation.messages.present?
+      @conversation = conversation_show_query
+      # byebug
+      if @conversation.blank?
+        render json: { error: I18n.t('conversation.show.empty') }, status: :bad_request
+      else
+        @conversation.update!(read: true)
+        @conversation.messages.unread.each { |m| m.read = true } if @conversation.messages.present?
+      end
     end
 
     def unread
@@ -41,11 +43,11 @@ module V1
                   .or(Conversation.where(user_id2: current_v1_user.id))
     end
 
-    def conversation_show_array
+    def conversation_show_query
       Conversation.where({ id: params[:id],
                            user_id1: current_v1_user.id })
                   .or(Conversation.where({ id: params[:id],
-                                           user_id2: current_v1_user.id }))
+                                           user_id2: current_v1_user.id })).first
     end
 
     def conversation_params

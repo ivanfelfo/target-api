@@ -9,29 +9,29 @@ describe 'GET v1/conversations/:id', type: :request do
 
     context 'when getting a conversation the user participates in' do
       it 'returns the conversation' do
-        get v1_conversations_path(logged_user_conversation.id)
-        expect(json['conversations'][0]['id']).to eq(logged_user_conversation.id)
-        expect(json['conversations'][0]['user_id1']).to eq(user1.id)
+        get v1_conversation_path(logged_user_conversation.id), as: :json
+        expect(json['conversation']['id']).to eq(logged_user_conversation.id)
+        expect(json['conversation']['user_id1']).to eq(user1.id)
       end
 
-      # it 'updates read attr to true' do
-      #   get v1_conversations_path(logged_user_conversation.id)
-      #   expect(logged_user_conversation.reload.read).to eq(true)
-      # end
+      it 'updates :read attr to true' do
+        get v1_conversation_path(logged_user_conversation.id), as: :json
+        expect(logged_user_conversation.reload.read).to eq(true)
+      end
     end
 
     context 'when trying to get a conversation the user doesn\'t participate in' do
-      # it 'returns error' do
-      #   get v1_conversations_path(other_conversation.id)
-      #   byebug
-      #   expect(json['error']).to eq()
-      # end
+      it 'returns error' do
+        get v1_conversation_path(other_conversation.id), as: :json
+        expect(json['error'])
+          .to eq("The conversation doesn't exist or you don't participate in it.")
+      end
     end
   end
 
   context 'when the user isn\'t logged in' do
     it 'returns http code unauthorized' do
-      get v1_conversations_path(logged_user_conversation.id)
+      get v1_conversation_path(logged_user_conversation.id), as: :json
       expect(response).to have_http_status(401)
     end
   end

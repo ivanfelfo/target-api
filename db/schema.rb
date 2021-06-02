@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_20_174928) do
+ActiveRecord::Schema.define(version: 2021_06_02_130613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,9 +42,9 @@ ActiveRecord::Schema.define(version: 2021_05_20_174928) do
   end
 
   create_table "conversations", force: :cascade do |t|
-    t.integer "user_id1"
-    t.integer "user_id2"
-    t.integer "topic_id"
+    t.integer "user_id1", null: false
+    t.integer "user_id2", null: false
+    t.integer "topic_id", null: false
     t.boolean "read", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -55,9 +55,9 @@ ActiveRecord::Schema.define(version: 2021_05_20_174928) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.integer "conversation_id"
-    t.integer "user_id"
-    t.string "message"
+    t.integer "conversation_id", null: false
+    t.integer "user_id", null: false
+    t.string "message", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "read", default: false

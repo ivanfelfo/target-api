@@ -1,5 +1,7 @@
 json.messages do
-  json.array! @messages
+  json.array! @messages do |message|
+    json.partial! 'info', message: message
+  end
 end
 
 json.pagy do

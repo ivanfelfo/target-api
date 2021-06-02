@@ -1,3 +1,3 @@
 json.conversation do
-  json.array! @conversation
+  json.partial! 'info', conversation: @conversation
 end
