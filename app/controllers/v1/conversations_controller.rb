@@ -15,7 +15,6 @@ module V1
 
     def show
       @conversation = conversation_show_query
-      # byebug
       if @conversation.blank?
         render json: { error: I18n.t('conversation.show.empty') }, status: :bad_request
       else

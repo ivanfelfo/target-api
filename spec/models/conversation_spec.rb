@@ -14,7 +14,6 @@ describe Conversation, type: :model do
 
       it 'raises an error' do
         expect { subject }.to raise_error(ActiveRecord::RecordInvalid)
-        # "Validation failed: User id1 can'\t create a conversation with yourself")
       end
     end
   end
