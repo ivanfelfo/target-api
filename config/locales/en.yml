@@ -38,3 +38,15 @@ en:
       headings: "Hello!"
       contents: "I'm a notification"
       email_subject: "Target match"
+  conversation:
+    get_unread:
+      empty: "You don't have unread conversations"
+    show:
+      empty: "The conversation doesn't exist or you don't participate in it."
+    index:
+      empty: "You don't have any conversations."
+    create:
+      restriction: "Can't create a conversation with yourself."    
+  message:
+    index:
+      empty: "The conversation doesn't exist or you don't participate in it."
