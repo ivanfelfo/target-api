@@ -32,6 +32,7 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'pagy', '~> 4.5.1'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
@@ -42,7 +43,6 @@ group :development, :test do
   gem 'factory_bot_rails', '~>  6.1.0'
   gem 'faker', '~> 2.17.0'
   gem 'mailcatcher', '~> 0.2.4'
-  gem 'pagy', '~> 4.5.1'
   gem 'rails-controller-testing', '~> 1.0.5'
   gem 'rspec-rails', '~> 5.0.0'
   gem 'rubocop-rootstrap', '~> 1.2'
