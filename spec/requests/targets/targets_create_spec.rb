@@ -72,15 +72,4 @@ describe 'POST v1/targets', type: :request do
       expect { subject }.not_to change(Target, :count)
     end
   end
-
-  context 'when user is not logged in' do
-    it 'returns http unauthorized' do
-      subject
-      expect(response).to have_http_status(401)
-    end
-
-    it 'doesn\t change the target count' do
-      expect { subject }.not_to change(Target, :count)
-    end
-  end
 end

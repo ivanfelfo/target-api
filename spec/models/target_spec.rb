@@ -88,6 +88,10 @@ describe Target, type: :model do
       it 'enques 10 NotificationJob jobs' do
         expect { subject }.to have_enqueued_job(NotificationsJob).exactly(10)
       end
+
+      it 'creates a conversation between the matched users' do
+        expect { subject }.to change(Conversation, :count).by(10)
+      end
     end
   end
 

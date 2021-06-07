@@ -22,8 +22,9 @@ class Target < ApplicationRecord
   scope :not_of_user, ->(user_id) { where.not(user_id: user_id) }
 
   def notify_compatible_targets
-    compatible_users.each do |user|
-      NotificationsJob.perform_later(user)
+    compatible_users.each do |u|
+      NotificationsJob.perform_later(u)
+      Conversation.create!(user_id1: user.id, user_id2: u.id, topic: topic)
     end
   end
 
